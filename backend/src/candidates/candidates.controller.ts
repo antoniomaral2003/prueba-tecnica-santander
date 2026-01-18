@@ -57,7 +57,7 @@ export class CandidatesController {
     }
 
     @Post('create-excel')
-    @UseInterceptors(FileInterceptor('excelFile'))
+    @UseInterceptors(FileInterceptor('file'))
     async createWithExcel(
         @UploadedFile(
             new ParseFilePipe({
