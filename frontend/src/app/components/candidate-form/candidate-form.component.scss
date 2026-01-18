@@ -1,0 +1,441 @@
+// Variables
+$primary-color: #3f51b5;
+$accent-color: #ff4081;
+$success-color: #4caf50;
+$warn-color: #f44336;
+$junior-color: #2196f3;
+$senior-color: #9c27b0;
+
+$border-radius: 12px;
+$transition-speed: 0.3s;
+
+// Card Container
+.form-card {
+  max-width: 800px;
+  margin: 24px auto;
+  border-radius: $border-radius;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+// Header
+mat-card-header {
+  padding: 24px 24px 16px;
+
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .header-info {
+    flex: 1;
+  }
+
+  mat-card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 4px;
+  }
+
+  mat-card-subtitle {
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  .back-button {
+    margin-left: 16px;
+  }
+}
+
+// Content
+mat-card-content {
+  padding: 24px;
+}
+
+// Loading State
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  gap: 16px;
+
+  p {
+    color: #666;
+    font-size: 0.95rem;
+  }
+}
+
+// Form Sections
+.form-section {
+  padding: 24px 0;
+
+  &:first-of-type {
+    padding-top: 0;
+  }
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #333;
+  margin: 0 0 16px 0;
+
+  mat-icon {
+    color: $primary-color;
+    font-size: 22px;
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.section-description {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+  line-height: 1.5;
+
+  strong {
+    color: #333;
+  }
+}
+
+// Form Grid
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+
+  &.form-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+// Toggle Field (for availability)
+.toggle-field {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8px 0;
+
+  .toggle-label {
+    font-size: 0.75rem;
+    color: rgba(0, 0, 0, 0.6);
+    margin-bottom: 8px;
+    font-weight: 400;
+  }
+
+  mat-slide-toggle {
+    font-size: 0.9rem;
+  }
+}
+
+// File Upload Area
+.file-upload-area {
+  border: 2px dashed #ccc;
+  border-radius: $border-radius;
+  padding: 40px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all $transition-speed ease;
+  background-color: #fafafa;
+
+  &:hover,
+  &.drag-over {
+    border-color: $primary-color;
+    background-color: rgba($primary-color, 0.04);
+
+    .upload-icon {
+      color: $primary-color;
+      transform: translateY(-4px);
+    }
+  }
+
+  .upload-icon {
+    font-size: 56px;
+    height: 56px;
+    width: 56px;
+    color: #9e9e9e;
+    margin-bottom: 16px;
+    transition: all $transition-speed ease;
+  }
+
+  .upload-title {
+    margin: 0 0 8px 0;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+  }
+
+  .upload-hint {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #757575;
+  }
+}
+
+// File Selected State
+.file-selected {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background-color: rgba($primary-color, 0.06);
+  border-radius: $border-radius;
+  border: 1px solid rgba($primary-color, 0.2);
+
+  .file-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .file-icon {
+    font-size: 36px;
+    height: 36px;
+    width: 36px;
+  }
+
+  .file-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .file-name {
+    font-weight: 500;
+    color: #333;
+    font-size: 0.95rem;
+  }
+
+  .file-status {
+    font-size: 0.8rem;
+    color: $success-color;
+  }
+}
+
+.file-progress {
+  margin-top: 12px;
+  border-radius: 4px;
+}
+
+// Excel Preview
+.excel-preview {
+  margin-top: 24px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: $border-radius;
+  border: 1px solid #e0e0e0;
+
+  .preview-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #333;
+    margin: 0 0 16px 0;
+
+    mat-icon {
+      font-size: 20px;
+      height: 20px;
+      width: 20px;
+      color: $primary-color;
+    }
+  }
+}
+
+.preview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.preview-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .preview-label {
+    font-size: 0.8rem;
+    color: #666;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  mat-chip {
+    justify-content: center;
+    font-weight: 500;
+
+    mat-icon {
+      font-size: 18px;
+      height: 18px;
+      width: 18px;
+      margin-right: 4px;
+    }
+
+    &.junior {
+      background-color: rgba($junior-color, 0.15) !important;
+      color: darken($junior-color, 10%) !important;
+    }
+
+    &.senior {
+      background-color: rgba($senior-color, 0.15) !important;
+      color: darken($senior-color, 10%) !important;
+    }
+
+    &.available {
+      background-color: rgba($success-color, 0.15) !important;
+      color: darken($success-color, 10%) !important;
+    }
+
+    &.unavailable {
+      background-color: rgba($warn-color, 0.15) !important;
+      color: darken($warn-color, 10%) !important;
+    }
+  }
+}
+
+// Form Actions
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 24px;
+
+  button {
+    min-width: 140px;
+    height: 42px;
+    font-weight: 500;
+
+    mat-icon {
+      margin-right: 6px;
+    }
+
+    mat-spinner {
+      margin-right: 8px;
+    }
+
+    &[disabled] {
+      opacity: 0.6;
+    }
+  }
+}
+
+// Divider spacing
+mat-divider {
+  margin: 8px 0;
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .form-card {
+    margin: 16px;
+    border-radius: 8px;
+  }
+
+  mat-card-header {
+    padding: 16px 16px 12px;
+
+    mat-card-title {
+      font-size: 1.25rem;
+    }
+  }
+
+  mat-card-content {
+    padding: 16px;
+  }
+
+  .form-grid,
+  .form-grid.form-grid-3 {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .preview-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+
+    button {
+      width: 100%;
+    }
+  }
+
+  .file-upload-area {
+    padding: 32px 16px;
+
+    .upload-icon {
+      font-size: 44px;
+      height: 44px;
+      width: 44px;
+    }
+
+    .upload-title {
+      font-size: 0.9rem;
+    }
+  }
+
+  .file-selected {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+
+    .file-info {
+      flex-direction: column;
+      gap: 8px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .form-card {
+    margin: 8px;
+  }
+
+  mat-card-header {
+    .header-content {
+      flex-direction: column-reverse;
+      gap: 12px;
+    }
+
+    .back-button {
+      align-self: flex-start;
+      margin-left: 0;
+    }
+  }
+
+  .section-title {
+    font-size: 1rem;
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.excel-preview {
+  animation: fadeIn 0.3s ease-out;
+}

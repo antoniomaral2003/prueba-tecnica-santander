@@ -53,23 +53,6 @@ export class CandidatesService {
 
     }
 
-    async processExcel(file: Express.Multer.File): Promise<Candidate[]> {
-
-        const candidatesData = await this.fileUploadService.processExcelFile(file);
-        const candidates: Candidate[] = [];
-
-        for (const candidateData of candidatesData) {
-
-            const candidate = this.candidateRepository.create(candidateData);
-            const savedCandidate = await this.candidateRepository.save(candidate);
-            candidates.push(savedCandidate);
-
-        }
-
-        return candidates;
-
-    }
-
     async bulkCreate(candidatesData: CreateCandidateDto[]): Promise<Candidate[]> {
 
         const candidates = candidatesData.map(data =>

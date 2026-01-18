@@ -1,0 +1,262 @@
+// Variables
+$primary-color: #3f51b5;
+$success-color: #4caf50;
+$warn-color: #f44336;
+$junior-color: #2196f3;
+$senior-color: #9c27b0;
+
+// Dialog Container
+.detail-dialog {
+  min-width: 400px;
+  max-width: 500px;
+}
+
+// Header
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, $primary-color 0%, darken($primary-color, 15%) 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+  }
+
+  .header-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    h2 {
+      margin: 0;
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    .candidate-id {
+      font-size: 0.8rem;
+      color: #757575;
+      font-family: monospace;
+    }
+  }
+
+  .close-button {
+    margin: -8px -12px 0 0;
+    color: #757575;
+
+    &:hover {
+      color: #333;
+    }
+  }
+}
+
+// Content
+mat-dialog-content {
+  padding: 24px !important;
+  max-height: 60vh;
+}
+
+.detail-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 12px 16px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #f0f0f0;
+  }
+
+  .detail-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: rgba($primary-color, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    mat-icon {
+      color: $primary-color;
+      font-size: 22px;
+      height: 22px;
+      width: 22px;
+    }
+
+    &.available {
+      background-color: rgba($success-color, 0.1);
+
+      mat-icon {
+        color: $success-color;
+      }
+    }
+
+    &.unavailable {
+      background-color: rgba($warn-color, 0.1);
+
+      mat-icon {
+        color: $warn-color;
+      }
+    }
+  }
+
+  .detail-content {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+  }
+
+  .detail-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #757575;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .detail-value {
+    font-size: 0.95rem;
+    color: #333;
+
+    strong {
+      font-size: 1.1rem;
+      color: $primary-color;
+    }
+  }
+}
+
+// Chips
+mat-chip {
+  font-weight: 500;
+  font-size: 0.8rem;
+
+  mat-icon {
+    font-size: 16px;
+    height: 16px;
+    width: 16px;
+    margin-right: 4px;
+  }
+
+  &.chip-junior {
+    background-color: rgba($junior-color, 0.15) !important;
+    color: darken($junior-color, 15%) !important;
+  }
+
+  &.chip-senior {
+    background-color: rgba($senior-color, 0.15) !important;
+    color: darken($senior-color, 10%) !important;
+  }
+
+  &.chip-default {
+    background-color: rgba(#757575, 0.15) !important;
+    color: #424242 !important;
+  }
+
+  &.chip-available {
+    background-color: rgba($success-color, 0.15) !important;
+    color: darken($success-color, 15%) !important;
+  }
+
+  &.chip-unavailable {
+    background-color: rgba($warn-color, 0.12) !important;
+    color: darken($warn-color, 10%) !important;
+  }
+}
+
+// Actions
+mat-dialog-actions {
+  padding: 16px 24px !important;
+  gap: 12px;
+  background-color: #fafafa;
+
+  button {
+    min-width: 100px;
+
+    mat-icon {
+      margin-right: 6px;
+    }
+  }
+}
+
+// Divider
+mat-divider {
+  margin: 0;
+}
+
+// Responsive
+@media (max-width: 480px) {
+  .detail-dialog {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .dialog-header {
+    padding: 16px;
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      font-size: 1rem;
+    }
+
+    .header-info h2 {
+      font-size: 1.15rem;
+    }
+  }
+
+  mat-dialog-content {
+    padding: 16px !important;
+  }
+
+  .detail-item {
+    padding: 10px 12px;
+
+    .detail-icon {
+      width: 36px;
+      height: 36px;
+
+      mat-icon {
+        font-size: 20px;
+        height: 20px;
+        width: 20px;
+      }
+    }
+  }
+
+  mat-dialog-actions {
+    padding: 12px 16px !important;
+    flex-direction: column-reverse;
+
+    button {
+      width: 100%;
+    }
+  }
+}

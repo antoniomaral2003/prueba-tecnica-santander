@@ -1,0 +1,93 @@
+<div class="detail-dialog">
+
+  <!-- Header -->
+  <div class="dialog-header">
+    <div class="header-content">
+      <div class="avatar">
+        {{ getInitials() }}
+      </div>
+      <div class="header-info">
+        <h2>{{ candidate.name }} {{ candidate.surname }}</h2>
+        <span class="candidate-id">ID: {{ candidate.id }}</span>
+      </div>
+    </div>
+
+    <button mat-icon-button (click)="close()" class="close-button" matTooltip="Cerrar">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- Content -->
+  <mat-dialog-content>
+    <div class="detail-grid">
+
+      <!-- Seniority -->
+      <div class="detail-item">
+        <div class="detail-icon">
+          <mat-icon>{{ getSeniorityIcon(candidate.seniority) }}</mat-icon>
+        </div>
+        <div class="detail-content">
+          <span class="detail-label">Nivel</span>
+          <mat-chip [class]="getSeniorityClass(candidate.seniority)" highlighted>
+            {{ getSeniorityLabel(candidate.seniority) }}
+          </mat-chip>
+        </div>
+      </div>
+
+      <!-- Years of Experience -->
+      <div class="detail-item">
+        <div class="detail-icon">
+          <mat-icon>work_history</mat-icon>
+        </div>
+        <div class="detail-content">
+          <span class="detail-label">Años de Experiencia</span>
+          <span class="detail-value">
+            <strong>{{ candidate.years }}</strong> año{{ candidate.years !== 1 ? 's' : '' }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Availability -->
+      <div class="detail-item">
+        <div class="detail-icon" [class.available]="candidate.availability" [class.unavailable]="!candidate.availability">
+          <mat-icon>{{ getAvailabilityIcon(candidate.availability) }}</mat-icon>
+        </div>
+        <div class="detail-content">
+          <span class="detail-label">Disponibilidad</span>
+          <mat-chip [class]="getAvailabilityClass(candidate.availability)" highlighted>
+            <mat-icon>{{ getAvailabilityIcon(candidate.availability) }}</mat-icon>
+            {{ getAvailabilityLabel(candidate.availability) }}
+          </mat-chip>
+        </div>
+      </div>
+
+      <!-- Created At (if available) -->
+      <div class="detail-item" *ngIf="candidate.createdAt">
+        <div class="detail-icon">
+          <mat-icon>calendar_today</mat-icon>
+        </div>
+        <div class="detail-content">
+          <span class="detail-label">Fecha de Registro</span>
+          <span class="detail-value">{{ candidate.createdAt | date:'dd/MM/yyyy - HH:mm' }}</span>
+        </div>
+      </div>
+
+    </div>
+  </mat-dialog-content>
+
+  <mat-divider></mat-divider>
+
+  <!-- Actions -->
+  <mat-dialog-actions>
+    <button mat-stroked-button (click)="close()">
+      Cerrar
+    </button>
+    <button mat-raised-button color="primary" (click)="editCandidate()" *ngIf="candidate.id">
+      <mat-icon>edit</mat-icon>
+      Editar
+    </button>
+  </mat-dialog-actions>
+
+</div>

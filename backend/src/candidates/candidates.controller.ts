@@ -21,13 +21,16 @@ import { CreateCandidateDto } from './dto/create-candidate.dto';
 import { UpdateCandidateDto } from './dto/update-candidate.dto';
 import { Candidate } from './entities/candidate.entity';
 import { CandidateResponseDto } from './dto/candidate-response.dto';
+import { CreateCandidateWithExcelDto } from './dto/create-candidate-excel.dto';
 import { plainToInstance } from 'class-transformer';
+import { FileUploadService } from './file-upload.service';
 
 @Controller('candidates')
 @UseInterceptors(ClassSerializerInterceptor)
 export class CandidatesController {
 
-    constructor(private readonly candidateService: CandidatesService) {}
+    constructor(private candidateService: CandidatesService,
+         private fileUploadService: FileUploadService) {}
 
     @Get()
     async getAll(): Promise<CandidateResponseDto[]> {
@@ -53,25 +56,31 @@ export class CandidatesController {
 
     }
 
-    @Post('upload')
-    @UseInterceptors(FileInterceptor('file'))
-    async uploadExcel(
+    @Post('create-excel')
+    @UseInterceptors(FileInterceptor('excelFile'))
+    async createWithExcel(
         @UploadedFile(
             new ParseFilePipe({
                 validators: [
                     new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 5 }),
                     new FileTypeValidator({
-                        fileType:
-                            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|application/vnd.ms-excel'
+                        fileType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|application/vnd.ms-excel'
                     }),
                 ],
             }),
         )
-        file: Express.Multer.File
-    ): Promise<CandidateResponseDto[]> {
+        excelFile: Express.Multer.File,
+        @Body() formData: CreateCandidateWithExcelDto
+    ): Promise<CandidateResponseDto> {
 
-        const candidates = await this.candidateService.processExcel(file);
-        return plainToInstance(CandidateResponseDto, candidates);
+        const candidateData = await this.fileUploadService.processExcelFile(
+            excelFile,
+            formData.name,
+            formData.surname
+        );
+
+        const candidate = await this.candidateService.create(candidateData);
+        return plainToInstance(CandidateResponseDto, candidate);
 
     }
 

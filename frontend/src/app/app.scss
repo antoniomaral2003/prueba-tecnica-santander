@@ -1,0 +1,288 @@
+// Variables
+$primary-color: #3f51b5;
+$primary-dark: #303f9f;
+$accent-color: #ff4081;
+$toolbar-height: 56px;
+
+/* Global styles */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+// Global Resets
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+// Toolbar
+.app-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.app-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.15rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  .app-logo {
+    font-size: 26px;
+    height: 26px;
+    width: 26px;
+  }
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+// Desktop Navigation
+.desktop-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 16px;
+    height: 40px;
+    border-radius: 20px;
+    transition: background-color 0.2s ease;
+
+    mat-icon {
+      font-size: 20px;
+      height: 20px;
+      width: 20px;
+    }
+
+    .nav-label {
+      font-weight: 500;
+    }
+
+    .badge {
+      background-color: $accent-color;
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-left: 4px;
+    }
+
+    &.active {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    &:hover:not(.active) {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
+// Sidenav Container
+.sidenav-container {
+  flex: 1;
+  margin-top: $toolbar-height;
+}
+
+// Sidenav
+.app-sidenav {
+  width: 280px;
+  background-color: #fff;
+}
+
+.sidenav-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  background: linear-gradient(135deg, $primary-color 0%, $primary-dark 100%);
+  color: white;
+
+  .sidenav-logo {
+    font-size: 28px;
+    height: 28px;
+    width: 28px;
+  }
+
+  span {
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+}
+
+// Nav List Items
+mat-nav-list {
+  padding-top: 8px;
+
+  a.mat-mdc-list-item {
+    margin: 4px 8px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: rgba($primary-color, 0.08);
+    }
+
+    &.active {
+      background-color: rgba($primary-color, 0.12);
+
+      mat-icon {
+        color: $primary-color;
+      }
+
+      [matListItemTitle] {
+        color: $primary-color;
+        font-weight: 600;
+      }
+    }
+
+    mat-icon {
+      color: #757575;
+    }
+
+    [matListItemTitle] {
+      font-weight: 500;
+    }
+
+    [matListItemLine] {
+      font-size: 0.8rem;
+      color: #999;
+    }
+  }
+}
+
+// Sidenav Footer
+.sidenav-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background-color: #f5f5f5;
+  margin-top: auto;
+
+  mat-icon {
+    color: $primary-color;
+  }
+
+  .footer-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .footer-label {
+    font-size: 0.75rem;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .footer-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+  }
+}
+
+// Main Content
+.main-content-wrapper {
+  background-color: #f5f7fa;
+  min-height: calc(100vh - #{$toolbar-height});
+}
+
+.main-content {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: calc(100vh - #{$toolbar-height} - 48px);
+}
+
+// Menu Button
+.menu-button {
+  display: none;
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .menu-button {
+    display: inline-flex;
+    margin-right: 8px;
+  }
+
+  .app-title {
+    font-size: 1rem;
+
+    .app-logo {
+      display: none;
+    }
+  }
+
+  .desktop-nav {
+    .nav-label {
+      display: none;
+    }
+
+    a {
+      padding: 0 12px;
+      min-width: 40px;
+      justify-content: center;
+
+      .badge {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        margin: 0;
+        padding: 2px 6px;
+        font-size: 0.65rem;
+      }
+    }
+  }
+
+  .main-content {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .desktop-nav {
+    display: none;
+  }
+
+  .app-title {
+    .app-logo {
+      display: block;
+      font-size: 22px;
+      height: 22px;
+      width: 22px;
+    }
+  }
+}
+
+// Ensure sidenav has proper height
+.app-sidenav {
+  display: flex;
+  flex-direction: column;
+
+  mat-nav-list {
+    flex: 1;
+  }
+}

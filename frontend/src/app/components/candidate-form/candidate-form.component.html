@@ -1,0 +1,262 @@
+<mat-card class="form-card">
+
+  <!-- Header -->
+  <mat-card-header>
+    <div class="header-content">
+      <div class="header-info">
+        <mat-card-title>{{ pageTitle() }}</mat-card-title>
+        <mat-card-subtitle>{{ pageSubtitle() }}</mat-card-subtitle>
+      </div>
+
+      <button mat-icon-button (click)="cancel()" matTooltip="Volver a la lista" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
+  </mat-card-header>
+
+  <mat-divider></mat-divider>
+
+  <mat-card-content>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading()" class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Cargando datos del candidato...</p>
+    </div>
+
+    <!-- CREATE MODE FORM -->
+    <form *ngIf="!isEditMode() && !isLoading()" [formGroup]="candidateForm" (ngSubmit)="onSubmit()" class="candidate-form">
+
+      <section class="form-section">
+        <h3 class="section-title">
+          <mat-icon>person</mat-icon>
+          Información Personal
+        </h3>
+
+        <div class="form-grid">
+          <!-- Nombre -->
+          <mat-form-field appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="name" placeholder="Ej: Juan" autocomplete="given-name">
+            <mat-icon matSuffix>badge</mat-icon>
+            <mat-hint>Solo letras y espacios</mat-hint>
+            <mat-error *ngIf="candidateForm.get('name')?.invalid">
+              {{ getErrorMessage('name') }}
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Apellido -->
+          <mat-form-field appearance="outline">
+            <mat-label>Apellido</mat-label>
+            <input matInput formControlName="surname" placeholder="Ej: Pérez" autocomplete="family-name">
+            <mat-icon matSuffix>badge</mat-icon>
+            <mat-hint>Solo letras y espacios</mat-hint>
+            <mat-error *ngIf="candidateForm.get('surname')?.invalid">
+              {{ getErrorMessage('surname') }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </section>
+
+      <mat-divider></mat-divider>
+
+      <!-- Excel Upload Section -->
+      <section class="form-section">
+        <h3 class="section-title">
+          <mat-icon>description</mat-icon>
+          Archivo de Datos
+        </h3>
+
+        <p class="section-description">
+          Suba un archivo Excel (.xlsx, .xls) o CSV con una fila que contenga:
+          <strong>Seniority</strong> (junior/senior),
+          <strong>Years</strong> (número) y
+          <strong>Availability</strong> (true/false).
+        </p>
+
+        <input #fileInput type="file" accept=".xlsx,.xls,.csv" (change)="onFileSelected($event)" hidden>
+
+        <!-- Upload Area -->
+        <div *ngIf="!fileName()" class="file-upload-area" [class.drag-over]="false" (click)="triggerFileInput()" (dragover)="onDragOver($event)" (drop)="onDrop($event)">
+
+          <mat-icon class="upload-icon">cloud_upload</mat-icon>
+          <p class="upload-title">Arrastra tu archivo aquí o haz clic para seleccionar</p>
+          <p class="upload-hint">Formatos permitidos: .xlsx, .xls, .csv (máx. 5MB)</p>
+        </div>
+
+        <!-- File Selected -->
+        <div *ngIf="fileName()" class="file-selected">
+          <div class="file-info">
+            <mat-icon class="file-icon" color="primary">insert_drive_file</mat-icon>
+            <div class="file-details">
+              <span class="file-name">{{ fileName() }}</span>
+              <span class="file-status">Archivo cargado correctamente</span>
+            </div>
+          </div>
+          <button mat-icon-button color="warn" (click)="removeFile()" matTooltip="Eliminar archivo" type="button">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+
+        <!-- Loading indicator for file processing -->
+        <mat-progress-bar *ngIf="isLoading() && fileName()" mode="indeterminate" class="file-progress">
+        </mat-progress-bar>
+
+        <!-- Excel Data Preview -->
+        <div *ngIf="excelData()" class="excel-preview" @fadeIn>
+          <h4 class="preview-title">
+            <mat-icon>preview</mat-icon>
+            Vista previa de datos
+          </h4>
+
+          <div class="preview-grid">
+            <div class="preview-item">
+              <span class="preview-label">Nivel</span>
+              <mat-chip [class.junior]="excelData()!.seniority === 'junior'" [class.senior]="excelData()!.seniority === 'senior'" highlighted>
+                {{ getSeniorityLabel(excelData()!.seniority) }}
+              </mat-chip>
+            </div>
+
+            <div class="preview-item">
+              <span class="preview-label">Años de experiencia</span>
+              <mat-chip highlighted>
+                <mat-icon>work_history</mat-icon>
+                {{ excelData()!.years }} años
+              </mat-chip>
+            </div>
+
+            <div class="preview-item">
+              <span class="preview-label">Disponibilidad</span>
+              <mat-chip [class.available]="excelData()!.availability" [class.unavailable]="!excelData()!.availability" highlighted>
+                <mat-icon>{{ excelData()!.availability ? 'check_circle' : 'cancel' }}</mat-icon>
+                {{ getAvailabilityLabel(excelData()!.availability) }}
+              </mat-chip>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <mat-divider></mat-divider>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button mat-stroked-button type="button" (click)="cancel()" [disabled]="isSubmitting()">
+          <mat-icon>close</mat-icon>
+          Cancelar
+        </button>
+
+        <button mat-stroked-button type="button" (click)="resetForm()" [disabled]="isSubmitting()">
+          <mat-icon>refresh</mat-icon>
+          Limpiar
+        </button>
+
+        <button mat-raised-button color="primary" type="submit"
+        [disabled]="candidateForm.invalid || !excelFile || isSubmitting()"
+        >
+          <mat-icon *ngIf="!isSubmitting()">save</mat-icon>
+          <mat-spinner *ngIf="isSubmitting()" diameter="20"></mat-spinner>
+          {{ submitButtonText() }}
+        </button>
+      </div>
+    </form>
+
+    <!-- EDIT MODE FORM -->
+    <form *ngIf="isEditMode() && !isLoading()" [formGroup]="editForm" (ngSubmit)="onSubmit()" class="candidate-form">
+
+      <section class="form-section">
+        <h3 class="section-title">
+          <mat-icon>person</mat-icon>
+          Información Personal
+        </h3>
+
+        <div class="form-grid">
+          <!-- Nombre -->
+          <mat-form-field appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="name" placeholder="Ej: Juan" autocomplete="given-name">
+            <mat-icon matSuffix>badge</mat-icon>
+            <mat-error *ngIf="editForm.get('name')?.invalid">
+              {{ getErrorMessage('name', editForm) }}
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Apellido -->
+          <mat-form-field appearance="outline">
+            <mat-label>Apellido</mat-label>
+            <input matInput formControlName="surname" placeholder="Ej: Pérez" autocomplete="family-name">
+            <mat-icon matSuffix>badge</mat-icon>
+            <mat-error *ngIf="editForm.get('surname')?.invalid">
+              {{ getErrorMessage('surname', editForm) }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </section>
+
+      <mat-divider></mat-divider>
+
+      <section class="form-section">
+        <h3 class="section-title">
+          <mat-icon>work</mat-icon>
+          Información Profesional
+        </h3>
+
+        <div class="form-grid form-grid-3">
+          <!-- Seniority -->
+          <mat-form-field appearance="outline">
+            <mat-label>Nivel</mat-label>
+            <mat-select formControlName="seniority">
+              <mat-option *ngFor="let option of seniorityOptions" [value]="option.value">
+                {{ option.label }}
+              </mat-option>
+            </mat-select>
+            <mat-icon matSuffix>military_tech</mat-icon>
+            <mat-error *ngIf="editForm.get('seniority')?.invalid">
+              {{ getErrorMessage('seniority', editForm) }}
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Years -->
+          <mat-form-field appearance="outline">
+            <mat-label>Años de Experiencia</mat-label>
+            <input matInput type="number" formControlName="years" min="0" max="50">
+            <mat-icon matSuffix>work_history</mat-icon>
+            <mat-error *ngIf="editForm.get('years')?.invalid">
+              {{ getErrorMessage('years', editForm) }}
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Availability -->
+          <div class="toggle-field">
+            <label class="toggle-label">Disponibilidad</label>
+            <mat-slide-toggle formControlName="availability" color="primary">
+              {{ editForm.get('availability')?.value ? 'Disponible' : 'No disponible' }}
+            </mat-slide-toggle>
+          </div>
+        </div>
+      </section>
+
+      <mat-divider></mat-divider>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button mat-stroked-button type="button" (click)="cancel()" [disabled]="isSubmitting()">
+          <mat-icon>close</mat-icon>
+          Cancelar
+        </button>
+
+        <button mat-stroked-button type="button" (click)="resetForm()" [disabled]="isSubmitting()">
+          <mat-icon>refresh</mat-icon>
+          Restaurar
+        </button>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="editForm.invalid || isSubmitting()">
+          <mat-icon *ngIf="!isSubmitting()">save</mat-icon>
+          <mat-spinner *ngIf="isSubmitting()" diameter="20"></mat-spinner>
+          {{ submitButtonText() }}
+        </button>
+      </div>
+    </form>
+
+  </mat-card-content>
+
+</mat-card>
