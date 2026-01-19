@@ -140,15 +140,10 @@ Endpoints Principales
 Método | Endpoint | Descripción
 ----------|-------|-------------
 GET    | /candidates     | Obtener todos los candidatos
-----------|-------|-------------
 GET    | /candidates/:id     | Obtener un candidato por ID
-----------|-------|-------------
 POST    | /candidates     | Crear un candidato manualmente
-----------|-------|-------------
 POST    | /candidates/create-excel     | Crear un candidato con un archivo Excel (.xlsx, .csv) incluido
-----------|-------|-------------
 PATCH    | /candidates/:id     | Actualizar candidato
-----------|-------|-------------
 DELETE    | /candidates/:id     | Eliminar candidato
 
 ## Construido con 🛠️
