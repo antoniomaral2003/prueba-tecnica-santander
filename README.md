@@ -97,7 +97,7 @@ Ejemplo de archivo Excel:
 
 seniority | years | availability
 ----------|-------|-------------
-senior    | 5     | true
+senior    | 5     | si/true
 
 # 🧪 Ejecutar Tests
 
