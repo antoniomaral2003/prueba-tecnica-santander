@@ -1,4 +1,4 @@
 export const environment = {
-  production: false,
-  apiUrl: 'http://localhost:3000/candidates'
+  production: true,
+  apiUrl: (window as any)['env']?.['apiUrl'] || 'https://candidates-api-xdw5.onrender.com/candidates'
 };
