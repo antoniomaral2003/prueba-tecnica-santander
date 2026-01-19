@@ -128,7 +128,7 @@
             <div class="preview-item">
               <span class="preview-label">Disponibilidad</span>
               <mat-chip [class.available]="excelData()!.availability" [class.unavailable]="!excelData()!.availability" highlighted>
-                <mat-icon>{{ excelData()!.availability ? 'check_circle' : 'cancel' }}</mat-icon>
+                <mat-icon>{{ excelData()!.availability && getAvailabilityLabel(excelData()!.availability) === 'Disponible' ? 'check_circle' : 'cancel' }}</mat-icon>
                 {{ getAvailabilityLabel(excelData()!.availability) }}
               </mat-chip>
             </div>
