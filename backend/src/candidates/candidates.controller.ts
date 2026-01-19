@@ -64,7 +64,7 @@ export class CandidatesController {
                 validators: [
                     new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 5 }),
                     new FileTypeValidator({
-                        fileType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|application/vnd.ms-excel'
+                        fileType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|application/vnd.ms-excel|text/csv'
                     }),
                 ],
             }),
